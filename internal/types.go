@@ -13,3 +13,11 @@ func NewQuadlet() *Quadlet {
 		pods:       make(map[string]map[string]string),
 	}
 }
+
+type QuadletContainer struct {
+	Environment  map[string]string `json:"environment"`
+	Command      []string          `json:"command"`
+	Image        string            `json:"image"`
+	PublishPorts []string          `json:"publishPorts"`
+	Volumes      []string          `json:"volumes"`
+}
