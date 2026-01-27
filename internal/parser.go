@@ -61,23 +61,22 @@ func ParseReader(reader io.Reader) {
 
 		switch nameType[1] {
 		case "container":
-			container := mapToContainer(options)
-
-			nix, err := struct2nix.Marshal(container, 0)
-			if err != nil {
-				fmt.Println("Error:", err)
-			}
-			fmt.Println(string(nix))
-			quadlet.containers[nameType[0]] = options
+			quadlet.Containers[nameType[0]] = options
 		case "network":
-			quadlet.networks[nameType[0]] = options
+			quadlet.Networks[nameType[0]] = options
 		case "pod":
-			quadlet.pods[nameType[0]] = options
+			quadlet.Pods[nameType[0]] = options
 		}
+
+		nix, err := struct2nix.Marshal(quadlet, 0)
+		if err != nil {
+			fmt.Println("Error:", err)
+		}
+		fmt.Println(string(nix))
 
 		fmt.Println("-----")
 
-		prettyJSON, err := json.MarshalIndent(quadlet.containers, "", "	")
+		prettyJSON, err := json.MarshalIndent(quadlet, "", "	")
 		if err != nil {
 			fmt.Println("Error:", err)
 		}

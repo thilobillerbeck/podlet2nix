@@ -1,16 +1,16 @@
 package internal
 
 type Quadlet struct {
-	containers map[string]map[string]string
-	networks   map[string]map[string]string
-	pods       map[string]map[string]string
+	Containers map[string]map[string]string `json:"containers"`
+	Networks   map[string]map[string]string `json:"networks"`
+	Pods       map[string]map[string]string `json:"pods"`
 }
 
 func NewQuadlet() *Quadlet {
 	return &Quadlet{
-		containers: make(map[string]map[string]string),
-		networks:   make(map[string]map[string]string),
-		pods:       make(map[string]map[string]string),
+		Containers: make(map[string]map[string]string),
+		Networks:   make(map[string]map[string]string),
+		Pods:       make(map[string]map[string]string),
 	}
 }
 
