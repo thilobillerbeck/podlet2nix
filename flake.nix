@@ -34,6 +34,13 @@
           name = "podlet2nix";
           src = ./.;
 
+          cgo_enabled = false;
+
+          ldflags = [
+            "-s"
+            "-w"
+          ];
+
           vendorHash = "sha256-wBdQIjRlA6Xr5o/ejmMO+/NWCGNKTApexb5z+6L7wbE=";
         };
       }
