@@ -61,7 +61,7 @@ func ParseReader(reader io.Reader) {
 
 		switch nameType[1] {
 		case "container":
-			quadlet.Containers[nameType[0]] = options
+			quadlet.Containers[nameType[0]] = mapToContainer(options)
 		case "network":
 			quadlet.Networks[nameType[0]] = options
 		case "pod":
