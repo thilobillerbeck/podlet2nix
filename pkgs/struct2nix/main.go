@@ -74,10 +74,6 @@ func map2nix(m map[string]any, depth int) ([]byte, error) {
 	var res strings.Builder
 	res.WriteString("{\n")
 	for k, v := range m {
-		// TODO: make this configurable
-		if v == nil {
-			continue
-		}
 		mv, err := Marshal(v, depth)
 		if err != nil {
 			return nil, err

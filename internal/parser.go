@@ -26,27 +26,23 @@ func stringToEnv(s string) map[string]string {
 	return res
 }
 
+func splitOrNil(s string, sep string) []string {
+	if s == "" {
+		return nil
+	}
+	return strings.Split(s, sep)
+}
+
 func mapToContainer(m map[string]string) ContainerOptions {
 	container := ContainerOptions{}
-
-	// get container config from pointer
-	container.ContainerConfig = &ContainerConfig{}
-
-	if m["Image"] != "" {
-		container.ContainerConfig.Image = m["Image"]
+	container.ContainerConfig = &ContainerConfig{
+		AddCapability: splitOrNil(m["AddCapability"], " "),
+		Image:         m["Image"],
+		PublishPort:   splitOrNil(m["PublishPort"], " "),
+		Volume:        splitOrNil(m["Volume"], " "),
+		Environment:   stringToEnv(m["Environment"]),
 	}
 
-	if len(m["PublishPort"]) > 0 {
-		container.ContainerConfig.PublishPort = strings.Split(m["PublishPort"], " ")
-	}
-
-	if len(m["Volume"]) > 0 {
-		container.ContainerConfig.Volume = strings.Split(m["Volume"], " ")
-	}
-
-	if len(m["Environment"]) > 0 {
-		container.ContainerConfig.Environment = stringToEnv(m["Environment"])
-	}
 	return container
 }
 
