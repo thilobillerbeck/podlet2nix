@@ -19,11 +19,11 @@ type AutoUpdateConfig struct {
 
 type BuildOptions struct {
 	AutoStart      bool              `json:"autoStart,omitempty"`
-	BuildConfig    BuildConfig       `json:"buildConfig,omitempty"`
-	QuadletConfig  QuadletConfig     `json:"quadletConfig,omitempty"`
+	BuildConfig    *BuildConfig      `json:"buildConfig,omitempty"`
+	QuadletConfig  *QuadletConfig    `json:"quadletConfig,omitempty"`
 	RawConfig      string            `json:"rawConfig,omitempty"`
 	Ref            string            `json:"ref,omitempty"`
-	RootlessConfig RootlessConfig    `json:"rootlessConfig,omitempty"`
+	RootlessConfig *RootlessConfig   `json:"rootlessConfig,omitempty"`
 	ServiceCOnfig  map[string]string `json:"serviceConfig,omitempty"`
 	UnitConfig     map[string]string `json:"unitConfig,omitempty"`
 }
@@ -68,22 +68,22 @@ type BuildConfig struct {
 
 type ContainerOptions struct {
 	AutoStart       bool              `json:"autoStart,omitempty"`
-	ContainerConfig ContainerConfig   `json:"containerConfig,omitempty"`
-	QuadletConfig   QuadletConfig     `json:"quadletConfig,omitempty"`
+	ContainerConfig *ContainerConfig  `json:"containerConfig,omitempty"`
+	QuadletConfig   *QuadletConfig    `json:"quadletConfig,omitempty"`
 	RawConfig       string            `json:"rawConfig,omitempty"`
 	Ref             string            `json:"ref,omitempty"`
-	RootlessConfig  RootlessConfig    `json:"rootlessConfig,omitempty"`
+	RootlessConfig  *RootlessConfig   `json:"rootlessConfig,omitempty"`
 	ServiceConfig   map[string]string `json:"serviceConfig,omitempty"`
 	UnitConfig      map[string]string `json:"unitConfig,omitempty"`
 }
 
 type ImageOptions struct {
 	AutoStart      bool              `json:"autoStart,omitempty"`
-	ImageConfig    ImageConfig       `json:"imageConfig,omitempty"`
-	QuadletConfig  QuadletConfig     `json:"quadletConfig,omitempty"`
+	ImageConfig    *ImageConfig      `json:"imageConfig,omitempty"`
+	QuadletConfig  *QuadletConfig    `json:"quadletConfig,omitempty"`
 	RawConfig      string            `json:"rawConfig,omitempty"`
 	Ref            string            `json:"ref,omitempty"`
-	RootlessConfig RootlessConfig    `json:"rootlessConfig,omitempty"`
+	RootlessConfig *RootlessConfig   `json:"rootlessConfig,omitempty"`
 	ServiceConfig  map[string]string `json:"serviceConfig,omitempty"`
 	UnitConfig     map[string]string `json:"unitConfig,omitempty"`
 }
@@ -110,11 +110,11 @@ type ImageConfig struct {
 
 type NetworkOptions struct {
 	AutoStart      bool              `json:"autoStart,omitempty"`
-	NetworkConfig  NetworkConfig     `json:"networkConfig,omitempty"`
-	QuadletConfig  QuadletConfig     `json:"quadletConfig,omitempty"`
+	NetworkConfig  *NetworkConfig    `json:"networkConfig,omitempty"`
+	QuadletConfig  *QuadletConfig    `json:"quadletConfig,omitempty"`
 	RawConfig      string            `json:"rawConfig,omitempty"`
 	Ref            string            `json:"ref,omitempty"`
-	RootlessConfig RootlessConfig    `json:"rootlessConfig,omitempty"`
+	RootlessConfig *RootlessConfig   `json:"rootlessConfig,omitempty"`
 	ServiceConfig  map[string]string `json:"serviceConfig,omitempty"`
 	UnitConfig     map[string]string `json:"unitConfig,omitempty"`
 }
@@ -141,11 +141,11 @@ type NetworkConfig struct {
 
 type PodOptions struct {
 	AutoStart      bool              `json:"autoStart,omitempty"`
-	PodConfig      PodConfig         `json:"podConfig,omitempty"`
-	QuadletConfig  QuadletConfig     `json:"quadletConfig,omitempty"`
+	PodConfig      *PodConfig        `json:"podConfig,omitempty"`
+	QuadletConfig  *QuadletConfig    `json:"quadletConfig,omitempty"`
 	RawConfig      string            `json:"rawConfig,omitempty"`
 	Ref            string            `json:"ref,omitempty"`
-	RootlessConfig RootlessConfig    `json:"rootlessConfig,omitempty"`
+	RootlessConfig *RootlessConfig   `json:"rootlessConfig,omitempty"`
 	ServiceConfig  map[string]string `json:"serviceConfig,omitempty"`
 	UnitConfig     map[string]string `json:"unitConfig,omitempty"`
 }
@@ -179,11 +179,11 @@ type PodConfig struct {
 
 type VolumeOptions struct {
 	AutoStart      bool              `json:"autoStart,omitempty"`
-	VolumeConfig   VolumeConfig      `json:"volumeConfig,omitempty"`
-	QuadletConfig  QuadletConfig     `json:"quadletConfig,omitempty"`
+	VolumeConfig   *VolumeConfig     `json:"volumeConfig,omitempty"`
+	QuadletConfig  *QuadletConfig    `json:"quadletConfig,omitempty"`
 	RawConfig      string            `json:"rawConfig,omitempty"`
 	Ref            string            `json:"ref,omitempty"`
-	RootlessConfig RootlessConfig    `json:"rootlessConfig,omitempty"`
+	RootlessConfig *RootlessConfig   `json:"rootlessConfig,omitempty"`
 	ServiceConfig  map[string]string `json:"serviceConfig,omitempty"`
 	UnitConfig     map[string]string `json:"unitConfig,omitempty"`
 }

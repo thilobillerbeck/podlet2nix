@@ -29,22 +29,27 @@ func stringToEnv(s string) map[string]string {
 	return res
 }
 
-func mapToContainer(m map[string]string) QuadletContainer {
-	container := QuadletContainer{}
-	container.Image = m["Image"]
+func mapToContainer(m map[string]string) ContainerOptions {
+	container := ContainerOptions{}
 
-	if m["PublishPort"] != "" {
-		container.PublishPorts = strings.Split(m["PublishPort"], " ")
+	// get container config from pointer
+	container.ContainerConfig = &ContainerConfig{}
+
+	if m["Image"] != "" {
+		container.ContainerConfig.Image = m["Image"]
 	}
 
-	if m["Volume"] != "" {
-		container.Volumes = strings.Split(m["Volume"], " ")
+	if len(m["PublishPort"]) > 0 {
+		container.ContainerConfig.PublishPort = strings.Split(m["PublishPort"], " ")
 	}
 
-	if m["Environment"] != "" {
-		container.Environment = stringToEnv(m["Environment"])
+	if len(m["Volume"]) > 0 {
+		container.ContainerConfig.Volume = strings.Split(m["Volume"], " ")
 	}
 
+	if len(m["Environment"]) > 0 {
+		container.ContainerConfig.Environment = stringToEnv(m["Environment"])
+	}
 	return container
 }
 
@@ -57,7 +62,14 @@ func ParseReader(reader io.Reader) {
 
 	text := strings.Join(lines, "\n")
 
-	quadlet := NewQuadlet()
+	quadlet := Quadlet{
+		Builds:     make(map[string]BuildOptions),
+		Containers: make(map[string]ContainerOptions),
+		Images:     make(map[string]ImageOptions),
+		Networks:   make(map[string]NetworkOptions),
+		Pods:       make(map[string]PodOptions),
+		Volumes:    make(map[string]VolumeOptions),
+	}
 
 	splitted := strings.SplitSeq(text, "\n---\n\n")
 
@@ -78,10 +90,6 @@ func ParseReader(reader io.Reader) {
 		switch nameType[1] {
 		case "container":
 			quadlet.Containers[nameType[0]] = mapToContainer(options)
-		case "network":
-			quadlet.Networks[nameType[0]] = options
-		case "pod":
-			quadlet.Pods[nameType[0]] = options
 		}
 
 		nix, err := struct2nix.Marshal(quadlet, 0)
