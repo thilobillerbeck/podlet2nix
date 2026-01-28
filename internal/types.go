@@ -7,6 +7,7 @@ type Quadlet struct {
 	Builds     map[string]BuildOptions     `json:"builds,omitempty"`
 	Containers map[string]ContainerOptions `json:"containers,omitempty"`
 	Images     map[string]ImageOptions     `json:"images,omitempty"`
+	Networks   map[string]NetworkOptions   `json:"networks,omitempty"`
 }
 
 type AutoUpdateConfig struct {
@@ -103,6 +104,37 @@ type ImageConfig struct {
 	ImageTag             string   `json:"tag,omitempty"`
 	TLSVerify            bool     `json:"tlsVerify,omitempty"`
 	Variant              string   `json:"variant,omitempty"`
+}
+
+type NetworkOptions struct {
+	AutoStart      bool              `json:"autoStart,omitempty"`
+	NetworkConfig  NetworkConfig     `json:"networkConfig,omitempty"`
+	QuadletConfig  QuadletConfig     `json:"quadletConfig,omitempty"`
+	RawConfig      string            `json:"rawConfig,omitempty"`
+	Ref            string            `json:"ref,omitempty"`
+	RootlessConfig RootlessConfig    `json:"rootlessConfig,omitempty"`
+	ServiceConfig  map[string]string `json:"serviceConfig,omitempty"`
+	UnitConfig     map[string]string `json:"unitConfig,omitempty"`
+}
+
+type NetworkConfig struct {
+	DisableDNS           bool              `json:"disableDns,omitempty"`
+	DNS                  []string          `json:"dns,omitempty"`
+	Driver               string            `json:"driver,omitempty"`
+	Gateway              []string          `json:"gateways,omitempty"`
+	GlobalArgs           []string          `json:"globalArgs,omitempty"`
+	InterfaceName        string            `json:"interfaceName,omitempty"`
+	Internal             bool              `json:"internal,omitempty"`
+	IPRange              []string          `json:"ipRanges,omitempty"`
+	IPAMDriver           string            `json:"ipamDriver,omitempty"`
+	IPv6                 bool              `json:"ipv6,omitempty"`
+	Label                map[string]string `json:"labels,omitempty"`
+	ContainersConfModule []string          `json:"modules,omitempty"`
+	NetworkName          string            `json:"name,omitempty"`
+	NetworkDeleteOnStop  bool              `json:"networkDeleteOnStop,omitempty"`
+	Options              map[string]string `json:"options,omitempty"`
+	PodmanArgs           []string          `json:"podmanArgs,omitempty"`
+	Subnet               []string          `json:"subnets,omitempty"`
 }
 
 type ContainerConfig struct {
