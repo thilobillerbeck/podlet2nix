@@ -6,6 +6,7 @@ type Quadlet struct {
 	AutoUpdate AutoUpdateConfig            `json:"autoUpdate,omitempty"`
 	Builds     map[string]BuildOptions     `json:"builds,omitempty"`
 	Containers map[string]ContainerOptions `json:"containers,omitempty"`
+	Images     map[string]ImageOptions     `json:"images,omitempty"`
 }
 
 type AutoUpdateConfig struct {
@@ -71,6 +72,37 @@ type ContainerOptions struct {
 	RootlessConfig  RootlessConfig    `json:"rootlessConfig,omitempty"`
 	ServiceConfig   map[string]string `json:"serviceConfig,omitempty"`
 	UnitConfig      map[string]string `json:"unitConfig,omitempty"`
+}
+
+type ImageOptions struct {
+	AutoStart      bool              `json:"autoStart,omitempty"`
+	ImageConfig    ImageConfig       `json:"imageConfig,omitempty"`
+	QuadletConfig  QuadletConfig     `json:"quadletConfig,omitempty"`
+	RawConfig      string            `json:"rawConfig,omitempty"`
+	Ref            string            `json:"ref,omitempty"`
+	RootlessConfig RootlessConfig    `json:"rootlessConfig,omitempty"`
+	ServiceConfig  map[string]string `json:"serviceConfig,omitempty"`
+	UnitConfig     map[string]string `json:"unitConfig,omitempty"`
+}
+
+type ImageConfig struct {
+	AllTags              bool     `json:"allTags,omitempty"`
+	Arch                 string   `json:"arch,omitempty"`
+	AuthFile             string   `json:"authFile,omitempty"`
+	CertDir              string   `json:"certDir,omitempty"`
+	Creds                string   `json:"creds,omitempty"`
+	DecryptionKey        string   `json:"decryptionKey,omitempty"`
+	GlobalArgs           []string `json:"globalArgs,omitempty"`
+	Image                string   `json:"image,omitempty"`
+	ContainersConfModule []string `json:"modules,omitempty"`
+	OS                   string   `json:"os,omitempty"`
+	PodmanArgs           []string `json:"podmanArgs,omitempty"`
+	Policy               string   `json:"policy,omitempty"`
+	Retry                int      `json:"retry,omitempty"`
+	RetryDelay           string   `json:"retryDelay,omitempty"`
+	ImageTag             string   `json:"tag,omitempty"`
+	TLSVerify            bool     `json:"tlsVerify,omitempty"`
+	Variant              string   `json:"variant,omitempty"`
 }
 
 type ContainerConfig struct {
