@@ -9,6 +9,7 @@ type Quadlet struct {
 	Images     map[string]ImageOptions     `json:"images,omitempty"`
 	Networks   map[string]NetworkOptions   `json:"networks,omitempty"`
 	Pods       map[string]PodOptions       `json:"pods,omitempty"`
+	Volumes    map[string]VolumeOptions    `json:"volumes,omitempty"`
 }
 
 type AutoUpdateConfig struct {
@@ -174,6 +175,33 @@ type PodConfig struct {
 	UIDMap               []string          `json:"uidMaps,omitempty"`
 	UserNS               string            `json:"userns,omitempty"`
 	Volume               []string          `json:"volumes,omitempty"`
+}
+
+type VolumeOptions struct {
+	AutoStart      bool              `json:"autoStart,omitempty"`
+	VolumeConfig   VolumeConfig      `json:"volumeConfig,omitempty"`
+	QuadletConfig  QuadletConfig     `json:"quadletConfig,omitempty"`
+	RawConfig      string            `json:"rawConfig,omitempty"`
+	Ref            string            `json:"ref,omitempty"`
+	RootlessConfig RootlessConfig    `json:"rootlessConfig,omitempty"`
+	ServiceConfig  map[string]string `json:"serviceConfig,omitempty"`
+	UnitConfig     map[string]string `json:"unitConfig,omitempty"`
+}
+
+type VolumeConfig struct {
+	Copy                 bool              `json:"copy,omitempty"`
+	Device               string            `json:"device,omitempty"`
+	Driver               string            `json:"driver,omitempty"`
+	GlobalArgs           []string          `json:"globalArgs,omitempty"`
+	Group                interface{}       `json:"group,omitempty"` // int or string
+	Image                string            `json:"image,omitempty"`
+	Label                map[string]string `json:"labels,omitempty"`
+	ContainersConfModule []string          `json:"modules,omitempty"`
+	VolumeName           string            `json:"name,omitempty"`
+	Options              string            `json:"options,omitempty"`
+	PodmanArgs           []string          `json:"podmanArgs,omitempty"`
+	Type                 string            `json:"type,omitempty"`
+	User                 interface{}       `json:"user,omitempty"` // int or string
 }
 
 type ContainerConfig struct {
