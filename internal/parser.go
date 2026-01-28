@@ -32,8 +32,7 @@ func stringToEnv(s string) map[string]string {
 	return res
 }
 
-func handleInterface(s string, n string) interface{} {
-	// TODO: implement rest of interfaces
+func handleInterface(s string, n string) any {
 	if s == "" {
 		return nil
 	}
@@ -46,6 +45,18 @@ func handleInterface(s string, n string) interface{} {
 			return strings.Split(s, ",")
 		}
 		return s[1 : len(s)-1]
+	case "Exec":
+		return strings.Split(s, " ")
+	case "Notify":
+		if s == "true" {
+			return true
+		}
+		if s == "false" {
+			return false
+		}
+		return s
+	case "ReloadCmd":
+		return strings.Split(s, " ")
 	}
 
 	return s
