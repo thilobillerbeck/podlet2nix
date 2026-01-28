@@ -2,9 +2,8 @@ package internal
 
 import (
 	"bufio"
-	"encoding/json"
-	"fmt"
 	"io"
+	"os"
 	"strings"
 
 	"github.com/coreos/go-systemd/v22/unit"
@@ -12,8 +11,6 @@ import (
 )
 
 func stringToEnv(s string) map[string]string {
-	fmt.Println(s)
-
 	res := make(map[string]string)
 	opts := strings.Split(s, " ")
 
@@ -91,19 +88,13 @@ func ParseReader(reader io.Reader) {
 		case "container":
 			quadlet.Containers[nameType[0]] = mapToContainer(options)
 		}
-
-		nix, err := struct2nix.Marshal(quadlet, 0)
-		if err != nil {
-			fmt.Println("Error:", err)
-		}
-		fmt.Println(string(nix))
-
-		fmt.Println("-----")
-
-		prettyJSON, err := json.MarshalIndent(quadlet, "", "	")
-		if err != nil {
-			fmt.Println("Error:", err)
-		}
-		fmt.Println(string(prettyJSON))
 	}
+
+	nix, err := struct2nix.Marshal(quadlet, 0)
+	if err != nil {
+		os.Stderr.WriteString("Error: " + err.Error() + "\n")
+		os.Exit(1)
+	}
+
+	os.Stdout.WriteString(string(nix))
 }

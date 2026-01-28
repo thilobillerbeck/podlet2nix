@@ -3,7 +3,7 @@ package struct2nix
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
+	"os"
 	"strings"
 )
 
@@ -28,7 +28,7 @@ func Marshal(data any, depth int) ([]byte, error) {
 	case nil:
 		return []byte("null"), nil
 	default:
-		fmt.Println("unsupported type", typed)
+		os.Stderr.WriteString("unsupported type\n")
 		return []byte(""), errors.New("unsupported type")
 	}
 }

@@ -3,7 +3,7 @@ package internal
 type Quadlet struct {
 	Enable     bool                        `json:"enable,omitempty"`
 	AutoEscape bool                        `json:"autoEscape,omitempty"`
-	AutoUpdate AutoUpdateConfig            `json:"autoUpdate,omitempty"`
+	AutoUpdate *AutoUpdateConfig           `json:"autoUpdate,omitempty"`
 	Builds     map[string]BuildOptions     `json:"builds,omitempty"`
 	Containers map[string]ContainerOptions `json:"containers,omitempty"`
 	Images     map[string]ImageOptions     `json:"images,omitempty"`
