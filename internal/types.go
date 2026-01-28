@@ -8,6 +8,7 @@ type Quadlet struct {
 	Containers map[string]ContainerOptions `json:"containers,omitempty"`
 	Images     map[string]ImageOptions     `json:"images,omitempty"`
 	Networks   map[string]NetworkOptions   `json:"networks,omitempty"`
+	Pods       map[string]PodOptions       `json:"pods,omitempty"`
 }
 
 type AutoUpdateConfig struct {
@@ -135,6 +136,44 @@ type NetworkConfig struct {
 	Options              map[string]string `json:"options,omitempty"`
 	PodmanArgs           []string          `json:"podmanArgs,omitempty"`
 	Subnet               []string          `json:"subnets,omitempty"`
+}
+
+type PodOptions struct {
+	AutoStart      bool              `json:"autoStart,omitempty"`
+	PodConfig      PodConfig         `json:"podConfig,omitempty"`
+	QuadletConfig  QuadletConfig     `json:"quadletConfig,omitempty"`
+	RawConfig      string            `json:"rawConfig,omitempty"`
+	Ref            string            `json:"ref,omitempty"`
+	RootlessConfig RootlessConfig    `json:"rootlessConfig,omitempty"`
+	ServiceConfig  map[string]string `json:"serviceConfig,omitempty"`
+	UnitConfig     map[string]string `json:"unitConfig,omitempty"`
+}
+
+type PodConfig struct {
+	AddHost              []string          `json:"addHosts,omitempty"`
+	DNS                  []string          `json:"dns,omitempty"`
+	DNSOption            []string          `json:"dnsOptions,omitempty"`
+	DNSSearch            []string          `json:"dnsSearches,omitempty"`
+	ExitPolicy           string            `json:"exitPolicy,omitempty"`
+	GIDMap               []string          `json:"gidMaps,omitempty"`
+	GlobalArgs           []string          `json:"globalArgs,omitempty"`
+	HostName             string            `json:"hostname,omitempty"`
+	IP                   string            `json:"ip,omitempty"`
+	IP6                  string            `json:"ip6,omitempty"`
+	Label                map[string]string `json:"labels,omitempty"`
+	ContainersConfModule []string          `json:"modules,omitempty"`
+	PodName              string            `json:"name,omitempty"`
+	NetworkAlias         []string          `json:"networkAliases,omitempty"`
+	Network              []string          `json:"networks,omitempty"`
+	PodmanArgs           []string          `json:"podmanArgs,omitempty"`
+	PublishPort          []string          `json:"publishPorts,omitempty"`
+	ShmSize              string            `json:"shmSize,omitempty"`
+	StopTimeout          int               `json:"stopTimeout,omitempty"`
+	SubGIDMap            string            `json:"subGIDMap,omitempty"`
+	SubUIDMap            string            `json:"subUIDMap,omitempty"`
+	UIDMap               []string          `json:"uidMaps,omitempty"`
+	UserNS               string            `json:"userns,omitempty"`
+	Volume               []string          `json:"volumes,omitempty"`
 }
 
 type ContainerConfig struct {
