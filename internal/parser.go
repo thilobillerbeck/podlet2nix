@@ -12,12 +12,18 @@ import (
 )
 
 func stringToEnv(s string) map[string]string {
+	fmt.Println(s)
+
 	res := make(map[string]string)
 	opts := strings.Split(s, " ")
 
 	for opt := range opts {
 		splitted := strings.Split(opts[opt], "=")
-		res[splitted[0]] = splitted[1]
+		if (len(splitted)) < 2 {
+			res[splitted[0]] = ""
+		} else {
+			res[splitted[0]] = splitted[1]
+		}
 	}
 
 	return res
@@ -26,9 +32,19 @@ func stringToEnv(s string) map[string]string {
 func mapToContainer(m map[string]string) QuadletContainer {
 	container := QuadletContainer{}
 	container.Image = m["Image"]
-	container.PublishPorts = strings.Split(m["PublishPort"], " ")
-	container.Volumes = strings.Split(m["Volume"], " ")
-	container.Environment = stringToEnv(m["Environment"])
+
+	if m["PublishPort"] != "" {
+		container.PublishPorts = strings.Split(m["PublishPort"], " ")
+	}
+
+	if m["Volume"] != "" {
+		container.Volumes = strings.Split(m["Volume"], " ")
+	}
+
+	if m["Environment"] != "" {
+		container.Environment = stringToEnv(m["Environment"])
+	}
+
 	return container
 }
 
