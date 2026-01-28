@@ -2,8 +2,11 @@ package internal
 
 import (
 	"bufio"
+	"fmt"
 	"io"
 	"os"
+	"reflect"
+	"strconv"
 	"strings"
 
 	"github.com/coreos/go-systemd/v22/unit"
@@ -11,6 +14,9 @@ import (
 )
 
 func stringToEnv(s string) map[string]string {
+	if s == "" {
+		return nil
+	}
 	res := make(map[string]string)
 	opts := strings.Split(s, " ")
 
@@ -26,6 +32,24 @@ func stringToEnv(s string) map[string]string {
 	return res
 }
 
+func handleInterface(s string, n string) interface{} {
+	fmt.Println("Name: ", n)
+	if s == "" {
+		return nil
+	}
+
+	switch n {
+	case "Entrypoint":
+		if strings.HasPrefix(s, "[") {
+			s = strings.ReplaceAll(s, "\"", "")
+			s = s[1 : len(s)-1]
+			return strings.Split(s, ",")
+		}
+	}
+
+	return s
+}
+
 func splitOrNil(s string, sep string) []string {
 	if s == "" {
 		return nil
@@ -33,15 +57,46 @@ func splitOrNil(s string, sep string) []string {
 	return strings.Split(s, sep)
 }
 
+func FillStruct(data map[string]string, result any) {
+	v := reflect.ValueOf(result).Elem()
+	t := v.Type()
+
+	for i := 0; i < v.NumField(); i++ {
+		value := data[t.Field(i).Name]
+		vlueType := t.Field(i).Type.Kind()
+
+		switch vlueType {
+		case reflect.Int:
+			valueInt, err := strconv.Atoi(value)
+			fmt.Println(valueInt)
+			if err != nil {
+				continue
+			}
+		case reflect.Bool:
+			v.Field(i).SetBool(value == "true")
+		case reflect.Slice:
+			v.Field(i).Set(reflect.ValueOf(splitOrNil(value, ",")))
+		case reflect.String:
+			v.Field(i).SetString(value)
+		case reflect.Map:
+			v.Field(i).Set(reflect.ValueOf(stringToEnv(value)))
+		case reflect.Interface:
+			res := handleInterface(value, t.Field(i).Name)
+			if res != nil {
+				v.Field(i).Set(reflect.ValueOf(res))
+			}
+		default:
+			fmt.Println("unsupported type: ", t.Field(i).Type.Kind())
+		}
+	}
+}
+
 func mapToContainer(m map[string]string) ContainerOptions {
 	container := ContainerOptions{}
-	container.ContainerConfig = &ContainerConfig{
-		AddCapability: splitOrNil(m["AddCapability"], " "),
-		Image:         m["Image"],
-		PublishPort:   splitOrNil(m["PublishPort"], " "),
-		Volume:        splitOrNil(m["Volume"], " "),
-		Environment:   stringToEnv(m["Environment"]),
-	}
+
+	var containerConfig *ContainerConfig = &ContainerConfig{}
+	FillStruct(m, containerConfig)
+	container.ContainerConfig = containerConfig
 
 	return container
 }
