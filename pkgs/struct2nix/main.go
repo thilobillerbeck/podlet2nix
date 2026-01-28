@@ -38,7 +38,7 @@ func Unmarshal(data []byte, v any) error {
 }
 
 func genIndent(depth int) string {
-	return strings.Repeat("\t", depth)
+	return strings.Repeat("  ", depth)
 }
 
 func bool2nix(b bool) ([]byte, error) {

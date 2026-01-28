@@ -33,7 +33,7 @@ func stringToEnv(s string) map[string]string {
 }
 
 func handleInterface(s string, n string) interface{} {
-	fmt.Println("Name: ", n)
+	// TODO: implement rest of interfaces
 	if s == "" {
 		return nil
 	}
@@ -45,6 +45,7 @@ func handleInterface(s string, n string) interface{} {
 			s = s[1 : len(s)-1]
 			return strings.Split(s, ",")
 		}
+		return s[1 : len(s)-1]
 	}
 
 	return s
@@ -67,8 +68,8 @@ func FillStruct(data map[string]string, result any) {
 
 		switch vlueType {
 		case reflect.Int:
-			valueInt, err := strconv.Atoi(value)
-			fmt.Println(valueInt)
+			// TODO: handle error
+			_, err := strconv.Atoi(value)
 			if err != nil {
 				continue
 			}
@@ -99,6 +100,56 @@ func mapToContainer(m map[string]string) ContainerOptions {
 	container.ContainerConfig = containerConfig
 
 	return container
+}
+
+func mapToBuild(m map[string]string) BuildOptions {
+	build := BuildOptions{}
+
+	var buildConfig *BuildConfig = &BuildConfig{}
+	FillStruct(m, buildConfig)
+	build.BuildConfig = buildConfig
+
+	return build
+}
+
+func mapToImage(m map[string]string) ImageOptions {
+	image := ImageOptions{}
+
+	var imageConfig *ImageConfig = &ImageConfig{}
+	FillStruct(m, imageConfig)
+	image.ImageConfig = imageConfig
+
+	return image
+}
+
+func mapToNetwork(m map[string]string) NetworkOptions {
+	network := NetworkOptions{}
+
+	var networkConfig *NetworkConfig = &NetworkConfig{}
+	FillStruct(m, networkConfig)
+	network.NetworkConfig = networkConfig
+
+	return network
+}
+
+func mapToVolume(m map[string]string) VolumeOptions {
+	volume := VolumeOptions{}
+
+	var volumeConfig *VolumeConfig = &VolumeConfig{}
+	FillStruct(m, volumeConfig)
+	volume.VolumeConfig = volumeConfig
+
+	return volume
+}
+
+func mapToPod(m map[string]string) PodOptions {
+	pod := PodOptions{}
+
+	var podConfig *PodConfig = &PodConfig{}
+	FillStruct(m, podConfig)
+	pod.PodConfig = podConfig
+
+	return pod
 }
 
 func ParseReader(reader io.Reader) {
@@ -138,6 +189,16 @@ func ParseReader(reader io.Reader) {
 		switch nameType[1] {
 		case "container":
 			quadlet.Containers[nameType[0]] = mapToContainer(options)
+		case "network":
+			quadlet.Networks[nameType[0]] = mapToNetwork(options)
+		case "pod":
+			quadlet.Pods[nameType[0]] = mapToPod(options)
+		case "volume":
+			quadlet.Volumes[nameType[0]] = mapToVolume(options)
+		case "image":
+			quadlet.Images[nameType[0]] = mapToImage(options)
+		case "build":
+			quadlet.Builds[nameType[0]] = mapToBuild(options)
 		}
 	}
 
@@ -147,5 +208,5 @@ func ParseReader(reader io.Reader) {
 		os.Exit(1)
 	}
 
-	os.Stdout.WriteString(string(nix))
+	os.Stdout.WriteString(string(nix) + "\n")
 }
