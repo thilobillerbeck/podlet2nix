@@ -79,11 +79,14 @@ func FillStruct(data map[string]string, result any) {
 
 		switch vlueType {
 		case reflect.Int:
-			// TODO: handle error
-			_, err := strconv.Atoi(value)
+			if value == "" {
+				continue
+			}
+			valueInt, err := strconv.Atoi(value)
 			if err != nil {
 				continue
 			}
+			v.Field(i).SetInt(int64(valueInt))
 		case reflect.Bool:
 			v.Field(i).SetBool(value == "true")
 		case reflect.Slice:

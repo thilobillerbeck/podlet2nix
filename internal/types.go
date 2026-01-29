@@ -193,7 +193,7 @@ type VolumeConfig struct {
 	Device               string            `json:"device,omitempty"`
 	Driver               string            `json:"driver,omitempty"`
 	GlobalArgs           []string          `json:"globalArgs,omitempty"`
-	Group                interface{}       `json:"group,omitempty"` // int or string
+	Group                string            `json:"group,omitempty"` // int or string
 	Image                string            `json:"image,omitempty"`
 	Label                map[string]string `json:"labels,omitempty"`
 	ContainersConfModule []string          `json:"modules,omitempty"`
@@ -201,7 +201,7 @@ type VolumeConfig struct {
 	Options              string            `json:"options,omitempty"`
 	PodmanArgs           []string          `json:"podmanArgs,omitempty"`
 	Type                 string            `json:"type,omitempty"`
-	User                 interface{}       `json:"user,omitempty"` // int or string
+	User                 string            `json:"user,omitempty"` // int or string
 }
 
 type ContainerConfig struct {

@@ -3,7 +3,9 @@ package struct2nix
 import (
 	"encoding/json"
 	"errors"
+	"math"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -15,6 +17,8 @@ func Marshal(data any, depth int) ([]byte, error) {
 		return string2nix(typed)
 	case int:
 		return int2nix(typed)
+	case float64:
+		return float2nix(typed)
 	case []any:
 		return arr2nix(typed, depth+1)
 	case map[string]any:
@@ -54,6 +58,14 @@ func string2nix(s string) ([]byte, error) {
 
 func int2nix(i int) ([]byte, error) {
 	return []byte(string(i)), nil
+}
+
+func float2nix(f float64) ([]byte, error) {
+	// Check if the float is an integer
+	if f == math.Trunc(f) {
+		return strconv.AppendInt(nil, int64(f), 10), nil
+	}
+	return strconv.AppendFloat(nil, f, 'f', -1, 64), nil
 }
 
 func arr2nix(arr []any, depth int) ([]byte, error) {
