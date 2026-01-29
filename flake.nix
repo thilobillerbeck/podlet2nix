@@ -4,12 +4,14 @@
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    git-hooks-nix.url = "github:cachix/git-hooks.nix";
   };
 
   outputs =
     inputs@{ flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
+        inputs.git-hooks-nix.flakeModule
       ];
       systems = [
         "x86_64-linux"
@@ -38,7 +40,14 @@
           ];
         in
         {
-          devShells.default = pkgs.mkShell { inherit nativeBuildInputs; };
+          pre-commit.settings.hooks = {
+            gofmt.enable = true;
+          };
+
+          devShells.default = pkgs.mkShell {
+            inputsFrom = [ config.pre-commit.devShell ];
+            inherit nativeBuildInputs;
+          };
 
           packages.default = pkgs.buildGoModule {
             name = "podlet2nix";
