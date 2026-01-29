@@ -90,7 +90,7 @@ func FillStruct(data map[string]string, result any) {
 		case reflect.Bool:
 			v.Field(i).SetBool(value == "true")
 		case reflect.Slice:
-			v.Field(i).Set(reflect.ValueOf(splitOrNil(value, ",")))
+			v.Field(i).Set(reflect.ValueOf(splitOrNil(value, " ")))
 		case reflect.String:
 			v.Field(i).SetString(value)
 		case reflect.Map:
@@ -197,6 +197,10 @@ func ParseReader(reader io.Reader) {
 		var options map[string]string = make(map[string]string)
 
 		for _, opt := range body {
+			if options[opt.Name] != "" {
+				options[opt.Name] = options[opt.Name] + " " + opt.Value
+				continue
+			}
 			options[opt.Name] = opt.Value
 		}
 
