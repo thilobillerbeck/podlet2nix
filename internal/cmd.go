@@ -1,3 +1,5 @@
+// Provides core logic for podlet2nix for parsing podman quadlet unit files
+// and converting them to Nix configuration format.
 package internal
 
 import (
@@ -6,6 +8,9 @@ import (
 	"os"
 )
 
+// GetReader returns an io.ReadCloser for reading input data.
+// If no command-line arguments are provided, it reads from stdin.
+// If one argument is provided, it treats it as a file path.
 func GetReader() io.ReadCloser {
 	var reader io.ReadCloser
 	var err error

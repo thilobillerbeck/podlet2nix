@@ -1,5 +1,6 @@
 package internal
 
+// Quadlet represents the root configuration structure for the quadlet-nix configuration.
 type Quadlet struct {
 	Enable     bool                        `json:"enable,omitempty"`
 	AutoEscape bool                        `json:"autoEscape,omitempty"`
@@ -12,11 +13,13 @@ type Quadlet struct {
 	Volumes    map[string]VolumeOptions    `json:"volumes,omitempty"`
 }
 
+// Mirroring https://seiarotg.github.io/quadlet-nix/nixos-options.html#virtualisationquadletautoupdateenable
 type AutoUpdateConfig struct {
 	Enable   bool   `json:"enable"`
 	Calendar string `json:"calendar"`
 }
 
+// Mirroring https://seiarotg.github.io/quadlet-nix/nixos-options.html#virtualisationquadletbuilds
 type BuildOptions struct {
 	AutoStart      bool              `json:"autoStart,omitempty"`
 	BuildConfig    *BuildConfig      `json:"buildConfig,omitempty"`
@@ -28,14 +31,17 @@ type BuildOptions struct {
 	UnitConfig     map[string]string `json:"unitConfig,omitempty"`
 }
 
+// Mirroring https://seiarotg.github.io/quadlet-nix/nixos-options.html#virtualisationquadletbuildsnamerootlessconfiguid
 type RootlessConfig struct {
 	Uid int `json:"uid,omitempty"`
 }
 
+// Mirroring https://seiarotg.github.io/quadlet-nix/nixos-options.html#virtualisationquadletbuildsnamequadletconfigdefaultdependencies
 type QuadletConfig struct {
 	DefaultDependencies bool `json:"defaultDependencies,omitempty"`
 }
 
+// Mirroring https://seiarotg.github.io/quadlet-nix/nixos-options.html#virtualisationquadletbuildsnamebuildconfigaddgroups
 type BuildConfig struct {
 	AddGroups            []string          `json:"addGroups,omitempty"`
 	Annotations          map[string]string `json:"annotations,omitempty"`
@@ -66,6 +72,7 @@ type BuildConfig struct {
 	WorkDir              string            `json:"workDir,omitempty"`
 }
 
+// Mirroring https://seiarotg.github.io/quadlet-nix/nixos-options.html#virtualisationquadletcontainers
 type ContainerOptions struct {
 	AutoStart       bool              `json:"autoStart,omitempty"`
 	ContainerConfig *ContainerConfig  `json:"containerConfig,omitempty"`
@@ -77,6 +84,7 @@ type ContainerOptions struct {
 	UnitConfig      map[string]string `json:"unitConfig,omitempty"`
 }
 
+// Mirroring https://seiarotg.github.io/quadlet-nix/nixos-options.html#virtualisationquadletimages
 type ImageOptions struct {
 	AutoStart      bool              `json:"autoStart,omitempty"`
 	ImageConfig    *ImageConfig      `json:"imageConfig,omitempty"`
@@ -88,6 +96,7 @@ type ImageOptions struct {
 	UnitConfig     map[string]string `json:"unitConfig,omitempty"`
 }
 
+// Mirroring https://seiarotg.github.io/quadlet-nix/nixos-options.html#virtualisationquadletimagesnameimageconfigalltags
 type ImageConfig struct {
 	AllTags              bool     `json:"allTags,omitempty"`
 	Arch                 string   `json:"arch,omitempty"`
@@ -108,6 +117,7 @@ type ImageConfig struct {
 	Variant              string   `json:"variant,omitempty"`
 }
 
+// Mirroring https://seiarotg.github.io/quadlet-nix/nixos-options.html#virtualisationquadletnetworks
 type NetworkOptions struct {
 	AutoStart      bool              `json:"autoStart,omitempty"`
 	NetworkConfig  *NetworkConfig    `json:"networkConfig,omitempty"`
@@ -119,6 +129,7 @@ type NetworkOptions struct {
 	UnitConfig     map[string]string `json:"unitConfig,omitempty"`
 }
 
+// Mirroring https://seiarotg.github.io/quadlet-nix/nixos-options.html#virtualisationquadletnetworksnamenetworkconfigdisabledns
 type NetworkConfig struct {
 	DisableDNS           bool              `json:"disableDns,omitempty"`
 	DNS                  []string          `json:"dns,omitempty"`
@@ -139,6 +150,7 @@ type NetworkConfig struct {
 	Subnet               []string          `json:"subnets,omitempty"`
 }
 
+// Mirroring https://seiarotg.github.io/quadlet-nix/nixos-options.html#virtualisationquadletpods
 type PodOptions struct {
 	AutoStart      bool              `json:"autoStart,omitempty"`
 	PodConfig      *PodConfig        `json:"podConfig,omitempty"`
@@ -150,6 +162,7 @@ type PodOptions struct {
 	UnitConfig     map[string]string `json:"unitConfig,omitempty"`
 }
 
+// Mirroring https://seiarotg.github.io/quadlet-nix/nixos-options.html#virtualisationquadletpodsnamepodconfigaddhosts
 type PodConfig struct {
 	AddHost              []string          `json:"addHosts,omitempty"`
 	DNS                  []string          `json:"dns,omitempty"`
@@ -177,6 +190,7 @@ type PodConfig struct {
 	Volume               []string          `json:"volumes,omitempty"`
 }
 
+// Mirroring https://seiarotg.github.io/quadlet-nix/nixos-options.html#virtualisationquadletvolumes
 type VolumeOptions struct {
 	AutoStart      bool              `json:"autoStart,omitempty"`
 	VolumeConfig   *VolumeConfig     `json:"volumeConfig,omitempty"`
@@ -188,6 +202,7 @@ type VolumeOptions struct {
 	UnitConfig     map[string]string `json:"unitConfig,omitempty"`
 }
 
+// Mirroring https://seiarotg.github.io/quadlet-nix/nixos-options.html#virtualisationquadletvolumesnamequadletconfigdefaultdependencies
 type VolumeConfig struct {
 	Copy                 bool              `json:"copy,omitempty"`
 	Device               string            `json:"device,omitempty"`
@@ -204,6 +219,7 @@ type VolumeConfig struct {
 	User                 string            `json:"user,omitempty"` // int or string
 }
 
+// Mirroring https://seiarotg.github.io/quadlet-nix/nixos-options.html#virtualisationquadletcontainersnamecontainerconfigaddcapabilities
 type ContainerConfig struct {
 	AddCapability         []string          `json:"addCapabilities,omitempty"`
 	GroupAdd              []string          `json:"addGroups,omitempty"`

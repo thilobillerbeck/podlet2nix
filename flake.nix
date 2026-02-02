@@ -34,6 +34,7 @@
             gopls
             cobra-cli
             podlet
+            pkgsite
             (writeShellScriptBin "podlet2nix" ''
               go run main.go "$@"
             '')
