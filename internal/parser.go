@@ -198,7 +198,19 @@ func ParseReader(reader io.Reader) {
 
 	for part := range splitted {
 		lines := strings.Split(part, "\n")
+
+		if len(lines) < 2 {
+			fmt.Fprintf(os.Stderr, "ERROR: input is too short for a valid unit: %s\n", lines[0])
+			os.Exit(1)
+		}
+
 		nameType := strings.Split(strings.TrimPrefix(lines[0], "# "), ".")
+
+		if len(nameType) != 2 {
+			fmt.Fprintf(os.Stderr, "ERROR: could not extract unit name and type from %s\n", lines[0])
+			os.Exit(1)
+		}
+
 		body, err := unit.Deserialize(strings.NewReader(strings.Join(lines[1:], "\n")))
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "ERROR: Deserialization failed %v\n", err)
