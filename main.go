@@ -5,5 +5,7 @@ import (
 )
 
 func main() {
-	internal.ParseReader(internal.GetReader())
+	reader := internal.GetReader()
+	defer reader.Close()
+	internal.ParseReader(reader)
 }

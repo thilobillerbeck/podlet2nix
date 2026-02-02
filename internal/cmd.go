@@ -5,12 +5,12 @@ import (
 	"os"
 )
 
-func GetReader() io.Reader {
-	var reader io.Reader
+func GetReader() io.ReadCloser {
+	var reader io.ReadCloser
 	var err error
 
 	if len(os.Args) == 1 {
-		reader = os.Stdin
+		reader = io.NopCloser(os.Stdin)
 	} else {
 		path := os.Args[1]
 
