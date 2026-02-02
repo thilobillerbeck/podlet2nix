@@ -204,10 +204,19 @@ func ParseReader(reader io.Reader) {
 			os.Exit(1)
 		}
 
-		nameType := strings.Split(strings.TrimPrefix(lines[0], "# "), ".")
+		infoLineTrimmed := strings.TrimPrefix(lines[0], "# ")
+		nameTypeSeparatorPos := strings.LastIndex(infoLineTrimmed, ".")
 
-		if len(nameType) != 2 {
-			fmt.Fprintf(os.Stderr, "ERROR: could not extract unit name and type from %s\n", lines[0])
+		if nameTypeSeparatorPos == -1 {
+			fmt.Fprintf(os.Stderr, "ERROR: could not split unit name and type in %s\n", lines[0])
+			os.Exit(1)
+		}
+
+		unitName := infoLineTrimmed[:nameTypeSeparatorPos]
+		unitType := infoLineTrimmed[nameTypeSeparatorPos+1:]
+
+		if unitName == "" || unitType == "" {
+			fmt.Fprintf(os.Stderr, "ERROR: unit name or type is empty in %s\n", lines[0])
 			os.Exit(1)
 		}
 
@@ -231,19 +240,21 @@ func ParseReader(reader io.Reader) {
 			options[opt.Name] = opt.Value
 		}
 
-		switch nameType[1] {
+		// get last element of nameType
+
+		switch unitType {
 		case "container":
-			quadlet.Containers[nameType[0]] = mapToContainer(options)
+			quadlet.Containers[unitName] = mapToContainer(options)
 		case "network":
-			quadlet.Networks[nameType[0]] = mapToNetwork(options)
+			quadlet.Networks[unitName] = mapToNetwork(options)
 		case "pod":
-			quadlet.Pods[nameType[0]] = mapToPod(options)
+			quadlet.Pods[unitName] = mapToPod(options)
 		case "volume":
-			quadlet.Volumes[nameType[0]] = mapToVolume(options)
+			quadlet.Volumes[unitName] = mapToVolume(options)
 		case "image":
-			quadlet.Images[nameType[0]] = mapToImage(options)
+			quadlet.Images[unitName] = mapToImage(options)
 		case "build":
-			quadlet.Builds[nameType[0]] = mapToBuild(options)
+			quadlet.Builds[unitName] = mapToBuild(options)
 		}
 	}
 

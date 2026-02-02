@@ -7,6 +7,7 @@ import (
 	"errors"
 	"math"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -93,6 +94,18 @@ func arr2nix(arr []any, depth int) ([]byte, error) {
 	return []byte(res.String()), nil
 }
 
+// wrap a nix option in quotes if it does contain special characters
+func wrapOption(option string) string {
+	if regexp.MustCompile(`^[A-Za-z_][A-Za-z0-9_'-]*$`).MatchString(option) {
+		return option
+	}
+	sb := strings.Builder{}
+	sb.WriteString("\"")
+	sb.WriteString(option)
+	sb.WriteString("\"")
+	return sb.String()
+}
+
 // Helper function to convert a map to a Nix expression
 func map2nix(m map[string]any, depth int) ([]byte, error) {
 	var res strings.Builder
@@ -102,7 +115,7 @@ func map2nix(m map[string]any, depth int) ([]byte, error) {
 		if err != nil {
 			return nil, err
 		}
-		res.WriteString(genIndent(depth) + k + " = " + string(mv) + ";\n")
+		res.WriteString(genIndent(depth) + wrapOption(k) + " = " + string(mv) + ";\n")
 	}
 	res.WriteString(genIndent(depth-1) + "}")
 
