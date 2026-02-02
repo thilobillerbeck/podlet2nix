@@ -39,6 +39,7 @@
               go run main.go "$@"
             '')
           ];
+          version = "0.0.1";
         in
         {
           pre-commit.settings.hooks = {
@@ -53,12 +54,14 @@
           packages.default = pkgs.buildGoModule {
             name = "podlet2nix";
             src = ./.;
+            version = version;
 
             cgo_enabled = false;
 
             ldflags = [
               "-s"
               "-w"
+              "-X main.Version=${version}"
             ];
 
             vendorHash = "sha256-wBdQIjRlA6Xr5o/ejmMO+/NWCGNKTApexb5z+6L7wbE=";
