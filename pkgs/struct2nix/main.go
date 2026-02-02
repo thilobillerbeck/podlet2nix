@@ -42,12 +42,6 @@ func Marshal(data any, depth int) ([]byte, error) {
 	}
 }
 
-// Unmarshal is a placeholder function for future implementation.
-// Currently it returns nil without performing any operation.
-func Unmarshal(data []byte, v any) error {
-	return nil
-}
-
 // Helper function to generate indentation based on depth
 func genIndent(depth int) string {
 	return strings.Repeat("  ", depth)

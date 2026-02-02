@@ -209,7 +209,11 @@ func ParseReader(reader io.Reader) {
 
 		for _, opt := range body {
 			if options[opt.Name] != "" {
-				options[opt.Name] = options[opt.Name] + " " + opt.Value
+				var optEntry strings.Builder
+				optEntry.WriteString(options[opt.Name])
+				optEntry.WriteString(" ")
+				optEntry.WriteString(opt.Value)
+				options[opt.Name] = optEntry.String()
 				continue
 			}
 			options[opt.Name] = opt.Value
