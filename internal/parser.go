@@ -75,9 +75,9 @@ func FillStruct(data map[string]string, result any) {
 
 	for i := 0; i < v.NumField(); i++ {
 		value := data[t.Field(i).Name]
-		vlueType := t.Field(i).Type.Kind()
+		valueType := t.Field(i).Type.Kind()
 
-		switch vlueType {
+		switch valueType {
 		case reflect.Int:
 			if value == "" {
 				continue
@@ -191,7 +191,8 @@ func ParseReader(reader io.Reader) {
 		nameType := strings.Split(strings.TrimPrefix(lines[0], "# "), ".")
 		body, err := unit.Deserialize(strings.NewReader(strings.Join(lines[1:], "\n")))
 		if err != nil {
-			panic(err)
+			fmt.Fprintf(os.Stderr, "ERROR: Deserialization failed %v\n", err)
+			os.Exit(1)
 		}
 
 		var options map[string]string = make(map[string]string)

@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"fmt"
 	"io"
 	"os"
 )
@@ -16,7 +17,8 @@ func GetReader() io.ReadCloser {
 
 		reader, err = os.Open(path)
 		if err != nil {
-			panic(err)
+			fmt.Fprintf(os.Stderr, "ERROR: Could not open file '%s': %v\n", path, err)
+			os.Exit(1)
 		}
 	}
 

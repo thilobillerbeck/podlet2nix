@@ -53,7 +53,10 @@ func bool2nix(b bool) ([]byte, error) {
 }
 
 func string2nix(s string) ([]byte, error) {
-	return []byte(`"` + s + `"`), nil
+	escaped := strings.ReplaceAll(s, "\\", "\\\\")
+	escaped = strings.ReplaceAll(escaped, "\"", "\\\"")
+	escaped = strings.ReplaceAll(escaped, "${", "\\${")
+	return []byte(`"` + escaped + `"`), nil
 }
 
 func int2nix(i int) ([]byte, error) {
