@@ -24,7 +24,7 @@ type BuildOptions struct {
 	RawConfig      string            `json:"rawConfig,omitempty"`
 	Ref            string            `json:"ref,omitempty"`
 	RootlessConfig *RootlessConfig   `json:"rootlessConfig,omitempty"`
-	ServiceCOnfig  map[string]string `json:"serviceConfig,omitempty"`
+	ServiceConfig  map[string]string `json:"serviceConfig,omitempty"`
 	UnitConfig     map[string]string `json:"unitConfig,omitempty"`
 }
 
@@ -44,18 +44,18 @@ type BuildConfig struct {
 	BuildArgs            map[string]string `json:"buildArgs,omitempty"`
 	DNS                  []string          `json:"dns,omitempty"`
 	DNSOption            []string          `json:"dnsOption,omitempty"`
-	DNSSeach             []string          `json:"dnsSeach,omitempty"`
+	DNSSearch            []string          `json:"dnsSearch,omitempty"`
 	Environments         map[string]string `json:"environments,omitempty"`
 	File                 string            `json:"file,omitempty"`
 	ForceRM              bool              `json:"forceRm,omitempty"`
 	GlobalArgs           []string          `json:"globalArgs,omitempty"`
-	IgnoreFile           string            `json:"ignoreFileand,omitempty"`
+	IgnoreFile           string            `json:"ignoreFile,omitempty"`
 	Labels               map[string]string `json:"labels,omitempty"`
 	ContainersConfModule []string          `json:"modules,omitempty"`
 	Network              []string          `json:"networks,omitempty"`
 	PodmanArgs           []string          `json:"podmanArgs,omitempty"`
 	Pull                 string            `json:"pull,omitempty"`
-	Retrty               int               `json:"retry,omitempty"`
+	Retry                int               `json:"retry,omitempty"`
 	RetryDelay           string            `json:"retryDelay,omitempty"`
 	Secret               []string          `json:"secrets,omitempty"`
 	Tag                  string            `json:"tag,omitempty"`

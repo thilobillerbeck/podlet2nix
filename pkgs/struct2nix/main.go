@@ -57,7 +57,7 @@ func string2nix(s string) ([]byte, error) {
 }
 
 func int2nix(i int) ([]byte, error) {
-	return []byte(string(i)), nil
+	return []byte(strconv.Itoa(i)), nil
 }
 
 func float2nix(f float64) ([]byte, error) {
