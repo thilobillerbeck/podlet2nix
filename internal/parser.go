@@ -19,10 +19,10 @@ func stringToEnv(s string) map[string]string {
 		return nil
 	}
 	res := make(map[string]string)
-	opts := strings.Split(s, " ")
+	opts := strings.SplitSeq(s, " ")
 
 	for opt := range opts {
-		splitted := strings.Split(opts[opt], "=")
+		splitted := strings.Split(opt, "=")
 		if (len(splitted)) < 2 {
 			res[splitted[0]] = ""
 		} else {
@@ -89,7 +89,8 @@ func FillStruct(data map[string]string, result any) {
 			}
 			valueInt, err := strconv.Atoi(value)
 			if err != nil {
-				continue
+				fmt.Fprintf(os.Stderr, "ERROR: Could not convert '%s' to int: %v\n", value, err)
+				os.Exit(1)
 			}
 			v.Field(i).SetInt(int64(valueInt))
 		case reflect.Bool:
