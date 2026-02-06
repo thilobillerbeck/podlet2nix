@@ -1,5 +1,17 @@
 package internal
 
+type Config struct {
+	Options Options `json:"options"`
+}
+
+type Options struct {
+	Virtualisation Virtualisation `json:"virtualisation"`
+}
+
+type Virtualisation struct {
+	Quadlet Quadlet `json:"quadlet"`
+}
+
 // Quadlet represents the root configuration structure for the quadlet-nix configuration.
 type Quadlet struct {
 	Enable     bool                        `json:"enable,omitempty"`

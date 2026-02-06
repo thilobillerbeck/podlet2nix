@@ -240,8 +240,6 @@ func ParseReader(reader io.Reader) {
 			options[opt.Name] = opt.Value
 		}
 
-		// get last element of nameType
-
 		switch unitType {
 		case "container":
 			quadlet.Containers[unitName] = mapToContainer(options)
@@ -258,7 +256,16 @@ func ParseReader(reader io.Reader) {
 		}
 	}
 
-	nix, err := struct2nix.Marshal(quadlet, 0)
+	config := Config{
+		Options: Options{
+			Virtualisation: Virtualisation{
+				Quadlet: quadlet,
+			},
+		},
+	}
+
+	nix, err := struct2nix.Marshal(config, 0)
+
 	if err != nil {
 		os.Stderr.WriteString("Error: " + err.Error() + "\n")
 		os.Exit(1)
