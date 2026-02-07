@@ -19,9 +19,9 @@ func stringToEnv(s string) map[string]string {
 		return nil
 	}
 	res := make(map[string]string)
-	opts := strings.SplitSeq(s, " ")
+	opts := strings.Split(s, " ")
 
-	for opt := range opts {
+	for _, opt := range opts {
 		splitted := strings.Split(opt, "=")
 		if (len(splitted)) < 2 {
 			res[splitted[0]] = ""
@@ -43,10 +43,15 @@ func handleInterface(s string, n string) any {
 	case "Entrypoint":
 		if strings.HasPrefix(s, "[") {
 			s = strings.ReplaceAll(s, "\"", "")
-			s = s[1 : len(s)-1]
+			if len(s) >= 2 {
+				s = s[1 : len(s)-1]
+			}
 			return strings.Split(s, ",")
 		}
-		return s[1 : len(s)-1]
+		if len(s) >= 2 {
+			return s[1 : len(s)-1]
+		}
+		return s
 	case "Exec":
 		return strings.Split(s, " ")
 	case "Notify":
@@ -183,6 +188,11 @@ func ParseReader(reader io.Reader) {
 		lines = append(lines, scanner.Text())
 	}
 
+	if err := scanner.Err(); err != nil {
+		fmt.Fprintf(os.Stderr, "ERROR: Failed to read input: %v\n", err)
+		os.Exit(1)
+	}
+
 	text := strings.Join(lines, "\n")
 
 	quadlet := Quadlet{
@@ -194,9 +204,9 @@ func ParseReader(reader io.Reader) {
 		Volumes:    make(map[string]VolumeOptions),
 	}
 
-	splitted := strings.SplitSeq(text, "\n---\n\n")
+	splitted := strings.Split(text, "\n---\n\n")
 
-	for part := range splitted {
+	for _, part := range splitted {
 		lines := strings.Split(part, "\n")
 
 		if len(lines) < 2 {
@@ -230,11 +240,7 @@ func ParseReader(reader io.Reader) {
 
 		for _, opt := range body {
 			if options[opt.Name] != "" {
-				var optEntry strings.Builder
-				optEntry.WriteString(options[opt.Name])
-				optEntry.WriteString(" ")
-				optEntry.WriteString(opt.Value)
-				options[opt.Name] = optEntry.String()
+				options[opt.Name] += " " + opt.Value
 				continue
 			}
 			options[opt.Name] = opt.Value
